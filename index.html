@@ -120,7 +120,7 @@ const CONFIG = {
     "Observability": ["Grafana","Glowroot"],
     "Tools": ["Postman","IntelliJ IDEA","STS","VS Code"]
   },
-  projects: [], // add {title, desc, tech:["Java","Kafka"], link:"https://github.com/..."} objects here
+  projects: [{"title": "NSWS, NeGD", "desc": "A centralised platform for govenrment licences", "link": "www.nsws.gov.in"}], // add {title, desc, tech:["Java","Kafka"], link:"https://github.com/..."} objects here
   education: [
     ["MCA, Kalinga University","2020 to 2022, CGPA 8.93"],
     ["BCA, S.P.M. College, Magadh University","2016 to 2019, 70.30%"],
@@ -144,7 +144,7 @@ $("heroBtns").innerHTML=b;
 $("stats").innerHTML=C.stats.map(s=>'<div class="stat"><b>'+esc(s[0])+'</b><span>'+esc(s[1])+'</span></div>').join("");
 $("exp").innerHTML=C.experience.map(e=>'<div class="card"><h3>'+esc(e.title)+'</h3><div class="meta">'+esc(e.org)+' · '+esc(e.period)+'<br>'+esc(e.client)+'</div><ul>'+e.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div>').join("");
 $("skillGrid").innerHTML=Object.entries(C.skills).map(([k,v])=>'<div class="card" style="margin:0"><h3 style="font-size:15px;margin-bottom:10px">'+esc(k)+'</h3><div class="chips">'+v.map(x=>'<span class="chip">'+esc(x)+'</span>').join("")+'</div></div>').join("");
-$("proj").innerHTML=C.projects.length?C.projects.map(p=>'<div class="card"><h3>'+esc(p.title)+'</h3><p>'+esc(p.desc)+'</p><div class="chips">'+(p.tech||[]).map(x=>'<span class="chip">'+esc(x)+'</span>').join("")+'</div>'+(p.link?'<p style="margin-bottom:0"><a href="'+esc(p.link)+'" target="_blank" rel="noopener" style="color:var(--accent)">View source</a></p>':'')+'</div>').join(""):'<div class="card"><p style="margin:0;color:var(--muted)">Personal projects are coming soon. Add them in the CONFIG block at the top of the script.</p></div>';
+$("proj").innerHTML=C.projects.length?C.projects.map(p=>'<div class="card"><h3>'+esc(p.title)+'</h3><p>'+esc(p.desc)+'</p><div class="chips">'+(p.tech||[]).map(x=>'<span class="chip">'+esc(x)+'</span>').join("")+'</div>'+(p.link?'<p style="margin-bottom:0"><a href="'+esc(p.link)+'" target="_blank" rel="noopener" style="color:var(--accent)">View source</a></p>':'')+'</div>').join(""):'<div class="card"><p style="margin:0;color:var(--muted)">Personal projects are coming soon..</p></div>';
 $("edugrid").innerHTML=C.education.map(e=>'<div class="card" style="margin:0"><h3 style="font-size:15px">'+esc(e[0])+'</h3><div class="meta" style="margin:4px 0 0">'+esc(e[1])+'</div></div>').join("");
 $("contactLine").innerHTML=esc(C.location)+' · <a style="color:var(--accent)" href="mailto:'+esc(C.email)+'">'+esc(C.email)+'</a> · <a style="color:var(--accent)" href="tel:'+esc(C.phone.replace(/\s/g,""))+'">'+esc(C.phone)+'</a>';
 $("foot").textContent="© "+new Date().getFullYear()+" "+C.name;
@@ -156,8 +156,21 @@ const cur=r.getAttribute("data-theme")||(d?"dark":"light");r.setAttribute("data-
 
 /* ===== motion ===== */
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
-if(C.photo){const ph=$("photo");ph.alt=C.name;ph.onerror=()=>{ph.parentElement.style.display="none"};ph.src=C.photo}else $("photo").parentElement.style.display="none";
-(function(){const el=$("typed"),w=C.typing||[];if(!w.length)return;if(RM){el.textContent=w[0];return}
+const photos = [
+    "photos/photo.jpg",
+    "photos/photo1.jpg",
+    "photos/photo2.jpg",
+
+    
+];
+
+const ph = $("photo");
+let current = 0;
+
+setInterval(() => {
+    ph.src = photos[current];
+    current = (current + 1) % photos.length;
+}, 2000);(function(){const el=$("typed"),w=C.typing||[];if(!w.length)return;if(RM){el.textContent=w[0];return}
 let i=0,j=0,del=false;(function tick(){const s=w[i];el.textContent=s.slice(0,j);
 if(!del&&j===s.length){del=true;return setTimeout(tick,1400)}
 if(del&&j===0){del=false;i=(i+1)%w.length}
